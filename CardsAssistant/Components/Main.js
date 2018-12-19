@@ -1,13 +1,15 @@
 import React from 'react'
 import {Button, StyleSheet, Text, View } from 'react-native'
+import TakePhoto from '../Components/TakePhoto'
 
-class Annonce extends React.Component{
+class Main extends React.Component{
 
     render(){
         console.log('render')
         return(
             <View style={styles.main_container}>
-                <Text>Page d'annonce</Text>
+                <Text>Votre main</Text>
+                <TakePhoto/>
             </View>
         )
     }
@@ -22,4 +24,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Annonce
+export default Main

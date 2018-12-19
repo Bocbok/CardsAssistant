@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator, createAppContainer} from 'react-navigation'
 import Menu from '../Components/Menu'
-import Annonce from '../Components/Annonce'
+import Main from '../Components/Main'
 
 const MenuStackNavigator = createStackNavigator({
     Menu: {
@@ -14,8 +14,8 @@ const MenuStackNavigator = createStackNavigator({
             }
         },
     },
-    Annonce:{
-        screen: Annonce,
+    Main:{
+        screen: Main,
         navigationOptions: {
             title: 'Cards Assistant',
             headerTintColor: '#16a085',
