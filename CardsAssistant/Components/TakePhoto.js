@@ -1,43 +1,47 @@
-import React from 'react'
-import { Button ,StyleSheet, Image, View } from 'react-native'
+import React, {Component} from 'react'
+import { Button ,StyleSheet, Image, View, Text } from 'react-native'
 import ImagePicker from 'react-native-image-picker'
 import { connect } from 'react-redux'
+import { getPoints } from '../actions/actions'
 
-class TakePhoto extends React.Component{
+class TakePhoto extends Component{
 
     constructor(props){
         super(props)
-        /* this.state = {
-            jeuSrc: "/image"
-        } */
     this._photoClicked = this._photoClicked.bind(this)
     }
 
 
     _displayImage(){
-        if(this.props.jeuSrc.uri)
-        return(
-            <Image source={{uri: this.props.jeuSrc.uri}}
-                style={styles.Image}
-            />)
+        console.log("display image")
+        if(this.props.resImage){
+            return(
+                <View>
+                <Text>{this.props.nbPoints}</Text>
+                <Text>{this.props.resImage}</Text>
+                </View>
+            )
+        }
     }
     
 
     _photoClicked(){
+        const {getPoints} = this.props
           ImagePicker.showImagePicker({}, (response)=>{
             if(response.didCancel){
-                //console.log('L\'utilisateur a annulé')
+                console.log('L\'utilisateur a annulé')
             }
             else if(response.error){
-                //console.log('Erreur : ', response.error)
+                console.log('Erreur : ', response.error)
             }
             else {
-                const action = { type: "PHOTO_TAKEN", value: {
+                const image = {
                     uri: response.uri,
                     name: response.fileName,
-                    type: response.type}}
-                this.props.dispatch(action) 
-                //console.log(this.props)
+                    type: response.type,
+                }
+                console.log("photoclicked")
+                getPoints(image)
             }
         })
     }
@@ -66,10 +70,17 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state) => {
+let mapStateToProps = (state) => {
     return{
-        jeuSrc: state.jeuSrc
+        nbPoints: state.Detector.nbPoints || null,
+        resImage: state.Detector.resImage || null,
     }
 }
 
-export default connect(mapStateToProps)(TakePhoto)
+let mapDispatchToProps = (dispatch) => {
+    return{
+        getPoints: (img) => dispatch(getPoints(img)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TakePhoto)
